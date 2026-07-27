@@ -20,6 +20,9 @@
                 <a href="#features">Funcionalidades</a>
                 <a href="#dashboard">Dashboard</a>
                 <a href="#commands">Comandos</a>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <button class="btn-login" onclick="openLogin()">Entrar</button>
             </div>
         </div>
@@ -662,6 +665,29 @@
     </div>
 
     <script>
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const isDark = document.body.classList.contains('dark');
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Load saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+            }
+            updateThemeIcon();
+        })();
+
         // Tab switching
         function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => {
