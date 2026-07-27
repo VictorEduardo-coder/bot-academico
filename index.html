@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Acadêmico - Seu Assistente de Estudos</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Bot Acadêmico</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Funcionalidades</a>
+                <a href="#dashboard">Dashboard</a>
+                <a href="#commands">Comandos</a>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn-login" onclick="openLogin()">Entrar</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Organize seus estudos com <span class="highlight">inteligência</span></h1>
+                <p>O Bot Acadêmico monitora seus emails, detecta prazos automaticamente e cria um cronograma personalizado para você nunca mais perder uma prova.</p>
+                <div class="hero-buttons">
+                    <a href="#dashboard" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> Ver Demo
+                    </a>
+                    <a href="#commands" class="btn btn-secondary">
+                        <i class="fas fa-terminal"></i> Comandos
+                    </a>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Monitoramento</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Automático</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">0</span>
+                        <span class="stat-label">Provas Perdidas</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="discord-preview">
+                    <div class="discord-header">
+                        <div class="discord-dot red"></div>
+                        <div class="discord-dot yellow"></div>
+                        <div class="discord-dot green"></div>
+                        <span>Discord</span>
+                    </div>
+                    <div class="discord-messages">
+                        <div class="message bot">
+                            <div class="avatar"><i class="fas fa-robot"></i></div>
+                            <div class="content">
+                                <span class="name">Bot Acadêmico</span>
+                                <div class="embed">
+                                    <div class="embed-border"></div>
+                                    <div class="embed-body">
+                                        <h4>Calendário Acadêmico</h4>
+                                        <p>📝 <strong>Prova</strong> - Cálculo III</p>
+                                        <p class="date">25/07/2026 (2 dias)</p>
+                                        <p>📄 <strong>Trabalho</strong> - Física II</p>
+                                        <p class="date">30/07/2026 (7 dias)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message user">
+                            <div class="content">
+                                <span class="name">Você</span>
+                                <p>/gerar_rotina</p>
+                            </div>
+                        </div>
+                        <div class="message bot">
+                            <div class="avatar"><i class="fas fa-robot"></i></div>
+                            <div class="content">
+                                <span class="name">Bot Acadêmico</span>
+                                <div class="embed schedule">
+                                    <div class="embed-border green"></div>
+                                    <div class="embed-body">
+                                        <h4>Cronograma da Semana</h4>
+                                        <div class="schedule-item">
+                                            <span class="time">08:00</span>
+                                            <span class="subject">Cálculo III</span>
+                                        </div>
+                                        <div class="schedule-item">
+                                            <span class="time">10:00</span>
+                                            <span class="subject">Física II</span>
+                                        </div>
+                                        <div class="schedule-item">
+                                            <span class="time">14:00</span>
+                                            <span class="subject">Programação</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Funcionalidades</h2>
+            <p class="section-subtitle">Tudo que você precisa para manter seus estudos em dia</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-envelope-open-text"></i>
+                    </div>
+                    <h3>Monitoramento de Email</h3>
+                    <p>Conecta ao seu email institucional e detecta automaticamente provas, trabalhos e entregas.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Detecção de Importância</h3>
+                    <p>Analisa o conteúdo dos emails e atribui prioridade (1-10) baseada na urgência.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Calendário Acadêmico</h3>
+                    <p>Visualize todos os seus eventos acadêmicos organizados por data e urgência.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Cronograma Otimizado</h3>
+                    <p>Algoritmo inteligente cria um plano de estudos personalizado para você.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Notificações Automáticas</h3>
+                    <p>Receba lembretes com antecedência para nunca mais esquecer de nada.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Prioridade Inteligente</h3>
+                    <p>O bot aprende e ajusta prioridades baseado nos seus padrões de estudo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="dashboard" id="dashboard">
+        <div class="container">
+            <h2>Dashboard Preview</h2>
+            <p class="section-subtitle">Veja como ficará sua experiência</p>
+
+            <div class="dashboard-container">
+                <!-- Sidebar -->
+                <div class="dashboard-sidebar">
+                    <div class="sidebar-header">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Bot Acadêmico</span>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <a href="#" class="nav-item active" onclick="showTab('disciplinas')">
+                            <i class="fas fa-book"></i>
+                            <span>Disciplinas</span>
+                            <span class="badge">5</span>
+                        </a>
+                        <a href="#" class="nav-item" onclick="showTab('calendario')">
+                            <i class="fas fa-calendar"></i>
+                            <span>Calendário</span>
+                            <span class="badge warning">3</span>
+                        </a>
+                        <a href="#" class="nav-item" onclick="showTab('cronograma')">
+                            <i class="fas fa-clock"></i>
+                            <span>Cronograma</span>
+                        </a>
+                        <a href="#" class="nav-item" onclick="showTab('config')">
+                            <i class="fas fa-cog"></i>
+                            <span>Configurações</span>
+                        </a>
+                    </nav>
+                </div>
+
+                <!-- Main Content -->
+                <div class="dashboard-main">
+                    <!-- Disciplinas Tab -->
+                    <div class="tab-content active" id="disciplinas">
+                        <div class="dashboard-header">
+                            <h3>Minhas Disciplinas</h3>
+                            <button class="btn btn-small" onclick="openAddSubject()">+ Adicionar</button>
+                        </div>
+                        <div class="subjects-grid">
+                            <div class="subject-card priority-high">
+                                <div class="subject-header">
+                                    <span class="priority-badge">Prioridade 9.2</span>
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <h4>Cálculo III</h4>
+                                <div class="subject-stats">
+                                    <span><i class="fas fa-weight"></i> Peso: 8</span>
+                                    <span><i class="fas fa-signal"></i> Dificuldade: 9</span>
+                                </div>
+                                <div class="subject-footer">
+                                    <span><i class="fas fa-clock"></i> 10h/semana</span>
+                                    <span class="status urgent">Prova em 2 dias!</span>
+                                </div>
+                            </div>
+
+                            <div class="subject-card priority-medium">
+                                <div class="subject-header">
+                                    <span class="priority-badge">Prioridade 7.4</span>
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <h4>Física II</h4>
+                                <div class="subject-stats">
+                                    <span><i class="fas fa-weight"></i> Peso: 7</span>
+                                    <span><i class="fas fa-signal"></i> Dificuldade: 8</span>
+                                </div>
+                                <div class="subject-footer">
+                                    <span><i class="fas fa-clock"></i> 8h/semana</span>
+                                    <span class="status warning">Trabalho em 7 dias</span>
+                                </div>
+                            </div>
+
+                            <div class="subject-card priority-low">
+                                <div class="subject-header">
+                                    <span class="priority-badge">Prioridade 5.8</span>
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h4>Programação II</h4>
+                                <div class="subject-stats">
+                                    <span><i class="fas fa-weight"></i> Peso: 6</span>
+                                    <span><i class="fas fa-signal"></i> Dificuldade: 5</span>
+                                </div>
+                                <div class="subject-footer">
+                                    <span><i class="fas fa-clock"></i> 6h/semana</span>
+                                    <span class="status normal">Sem prazos próximos</span>
+                                </div>
+                            </div>
+
+                            <div class="subject-card priority-low">
+                                <div class="subject-header">
+                                    <span class="priority-badge">Prioridade 5.0</span>
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h4>Banco de Dados</h4>
+                                <div class="subject-stats">
+                                    <span><i class="fas fa-weight"></i> Peso: 5</span>
+                                    <span><i class="fas fa-signal"></i> Dificuldade: 5</span>
+                                </div>
+                                <div class="subject-footer">
+                                    <span><i class="fas fa-clock"></i> 5h/semana</span>
+                                    <span class="status normal">Sem prazos próximos</span>
+                                </div>
+                            </div>
+
+                            <div class="subject-card priority-low">
+                                <div class="subject-header">
+                                    <span class="priority-badge">Prioridade 4.2</span>
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h4>Inglês Técnico</h4>
+                                <div class="subject-stats">
+                                    <span><i class="fas fa-weight"></i> Peso: 4</span>
+                                    <span><i class="fas fa-signal"></i> Dificuldade: 4</span>
+                                </div>
+                                <div class="subject-footer">
+                                    <span><i class="fas fa-clock"></i> 4h/semana</span>
+                                    <span class="status normal">Sem prazos próximos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calendário Tab -->
+                    <div class="tab-content" id="calendario">
+                        <div class="dashboard-header">
+                            <h3>Calendário Acadêmico</h3>
+                            <div class="calendar-nav">
+                                <button class="btn btn-small"><i class="fas fa-chevron-left"></i></button>
+                                <span>Julho 2026</span>
+                                <button class="btn btn-small"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-header">
+                                <span>Dom</span>
+                                <span>Seg</span>
+                                <span>Ter</span>
+                                <span>Qua</span>
+                                <span>Qui</span>
+                                <span>Sex</span>
+                                <span>Sáb</span>
+                            </div>
+                            <div class="calendar-body">
+                                <div class="calendar-day">28</div>
+                                <div class="calendar-day">29</div>
+                                <div class="calendar-day">30</div>
+                                <div class="calendar-day">1</div>
+                                <div class="calendar-day">2</div>
+                                <div class="calendar-day">3</div>
+                                <div class="calendar-day">4</div>
+                                <div class="calendar-day">5</div>
+                                <div class="calendar-day">6</div>
+                                <div class="calendar-day">7</div>
+                                <div class="calendar-day">8</div>
+                                <div class="calendar-day">9</div>
+                                <div class="calendar-day">10</div>
+                                <div class="calendar-day">11</div>
+                                <div class="calendar-day">12</div>
+                                <div class="calendar-day">13</div>
+                                <div class="calendar-day">14</div>
+                                <div class="calendar-day">15</div>
+                                <div class="calendar-day">16</div>
+                                <div class="calendar-day">17</div>
+                                <div class="calendar-day">18</div>
+                                <div class="calendar-day">19</div>
+                                <div class="calendar-day">20</div>
+                                <div class="calendar-day">21</div>
+                                <div class="calendar-day">22</div>
+                                <div class="calendar-day">23</div>
+                                <div class="calendar-day">24</div>
+                                <div class="calendar-day event urgent">25<span class="event-dot"></span></div>
+                                <div class="calendar-day">26</div>
+                                <div class="calendar-day">27</div>
+                                <div class="calendar-day">28</div>
+                                <div class="calendar-day">29</div>
+                                <div class="calendar-day event warning">30<span class="event-dot"></span></div>
+                                <div class="calendar-day">31</div>
+                            </div>
+                        </div>
+                        <div class="calendar-events">
+                            <h4>Próximos Eventos</h4>
+                            <div class="event-item urgent">
+                                <div class="event-date">
+                                    <span class="day">25</span>
+                                    <span class="month">JUL</span>
+                                </div>
+                                <div class="event-info">
+                                    <h5>Prova - Cálculo III</h5>
+                                    <p>2 dias restantes</p>
+                                </div>
+                                <span class="event-badge urgent">URGENTE</span>
+                            </div>
+                            <div class="event-item warning">
+                                <div class="event-date">
+                                    <span class="day">30</span>
+                                    <span class="month">JUL</span>
+                                </div>
+                                <div class="event-info">
+                                    <h5>Trabalho - Física II</h5>
+                                    <p>7 dias restantes</p>
+                                </div>
+                                <span class="event-badge warning">PROXIMO</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cronograma Tab -->
+                    <div class="tab-content" id="cronograma">
+                        <div class="dashboard-header">
+                            <h3>Cronograma de Estudos</h3>
+                            <button class="btn btn-small"><i class="fas fa-sync-alt"></i> Atualizar</button>
+                        </div>
+                        <div class="schedule-container">
+                            <div class="schedule-day">
+                                <h4><i class="fas fa-calendar-day"></i> Segunda-feira</h4>
+                                <div class="schedule-items">
+                                    <div class="schedule-item calculus">
+                                        <span class="time">08:00 - 08:50</span>
+                                        <span class="subject">Cálculo III</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                    <div class="schedule-item physics">
+                                        <span class="time">10:00 - 10:50</span>
+                                        <span class="subject">Física II</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                    <div class="schedule-item programming">
+                                        <span class="time">14:00 - 14:50</span>
+                                        <span class="subject">Programação II</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="schedule-day">
+                                <h4><i class="fas fa-calendar-day"></i> Terça-feira</h4>
+                                <div class="schedule-items">
+                                    <div class="schedule-item calculus">
+                                        <span class="time">08:00 - 08:50</span>
+                                        <span class="subject">Cálculo III</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                    <div class="schedule-item database">
+                                        <span class="time">10:00 - 10:50</span>
+                                        <span class="subject">Banco de Dados</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                    <div class="schedule-item english">
+                                        <span class="time">14:00 - 14:50</span>
+                                        <span class="subject">Inglês Técnico</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="schedule-day">
+                                <h4><i class="fas fa-calendar-day"></i> Quarta-feira</h4>
+                                <div class="schedule-items">
+                                    <div class="schedule-item physics">
+                                        <span class="time">08:00 - 08:50</span>
+                                        <span class="subject">Física II</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                    <div class="schedule-item programming">
+                                        <span class="time">10:00 - 10:50</span>
+                                        <span class="subject">Programação II</span>
+                                        <span class="duration">50min</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Config Tab -->
+                    <div class="tab-content" id="config">
+                        <div class="dashboard-header">
+                            <h3>Configurações</h3>
+                        </div>
+                        <div class="config-container">
+                            <div class="config-section">
+                                <h4><i class="fas fa-envelope"></i> Monitoramento de Email</h4>
+                                <p>Configure seu email institucional para monitoramento automático de prazos.</p>
+                                <div class="config-form">
+                                    <div class="form-group">
+                                        <label>Email Institucional</label>
+                                        <input type="email" placeholder="seu@email.edu.br" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Senha (App Password)</label>
+                                        <input type="password" placeholder="••••••••" disabled>
+                                    </div>
+                                    <button class="btn btn-small" disabled>Configurar</button>
+                                </div>
+                            </div>
+                            <div class="config-section">
+                                <h4><i class="fas fa-bell"></i> Notificações</h4>
+                                <p>Configure quando e como receber notificações.</p>
+                                <div class="config-form">
+                                    <div class="form-group">
+                                        <label>Dias de Antecedência</label>
+                                        <input type="number" value="3" min="1" max="30" disabled>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Horário da Notificação</label>
+                                        <input type="time" value="09:00" disabled>
+                                    </div>
+                                    <button class="btn btn-small" disabled>Salvar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Commands Section -->
+    <section class="commands" id="commands">
+        <div class="container">
+            <h2>Comandos Disponíveis</h2>
+            <p class="section-subtitle">Tudo que você precisa na palma da mão</p>
+
+            <div class="commands-grid">
+                <div class="command-card">
+                    <div class="command-header">
+                        <code>/adicionar_disciplina</code>
+                        <span class="command-badge">Essencial</span>
+                    </div>
+                    <p>Adiciona uma nova disciplina ao sistema com peso e dificuldade.</p>
+                    <div class="command-example">
+                        <code>/adicionar_disciplina nome:"Cálculo III" peso:8 dificuldade:9 horas:10</code>
+                    </div>
+                </div>
+
+                <div class="command-card">
+                    <div class="command-header">
+                        <code>/configurar_email</code>
+                        <span class="command-badge">Automação</span>
+                    </div>
+                    <p>Configura seu email para monitoramento automático de prazos.</p>
+                    <div class="command-example">
+                        <code>/configurar_email email:"seu@email.edu.br" senha:"senha"</code>
+                    </div>
+                </div>
+
+                <div class="command-card">
+                    <div class="command-header">
+                        <code>/calendario</code>
+                        <span class="command-badge">Visualização</span>
+                    </div>
+                    <p>Mostra todos os seus eventos acadêmicos organizados por data.</p>
+                    <div class="command-example">
+                        <code>/calendario</code>
+                    </div>
+                </div>
+
+                <div class="command-card">
+                    <div class="command-header">
+                        <code>/gerar_rotina</code>
+                        <span class="command-badge">Otimização</span>
+                    </div>
+                    <p>Gera um cronograma de estudos otimizado automaticamente.</p>
+                    <div class="command-example">
+                        <code>/gerar_rotina</code>
+                    </div>
+                </div>
+
+                <div class="command-card">
+                    <div class="command-header">
+                        <code>/listar_disciplinas</code>
+                        <span class="command-badge">Consulta</span>
+                    </div>
+                    <p>Lista todas as disciplinas cadastradas com suas prioridades.</p>
+                    <div class="command-example">
+                        <code>/listar_disciplinas</code>
+                    </div>
+                </div>
+
+                <div class="command-card">
+                    <div class="command-header">
+                        <code>/configurar_notificacao</code>
+                        <span class="command-badge">Alertas</span>
+                    </div>
+                    <p>Configura notificações automáticas com antecedência.</p>
+                    <div class="command-example">
+                        <code>/configurar_notificacao dias:3 hora:09:00</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Bot Acadêmico</span>
+                    </a>
+                    <p>Seu assistente inteligente para organizar os estudos acadêmicos.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links</h4>
+                    <a href="#features">Funcionalidades</a>
+                    <a href="#dashboard">Dashboard</a>
+                    <a href="#commands">Comandos</a>
+                </div>
+                <div class="footer-social">
+                    <h4>Contato</h4>
+                    <a href="#"><i class="fab fa-discord"></i> Discord</a>
+                    <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Bot Acadêmico. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeLogin()">&times;</button>
+            <div class="modal-header">
+                <i class="fas fa-graduation-cap"></i>
+                <h2>Entrar com Email Institucional</h2>
+            </div>
+            <form class="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Institucional</label>
+                    <input type="email" id="email" placeholder="seu@email.edu.br" required>
+                    <small>Apenas emails institucionais são aceitos</small>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" id="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+            <div class="login-divider">
+                <span>ou</span>
+            </div>
+            <button class="btn btn-discord btn-full">
+                <i class="fab fa-discord"></i> Entrar com Discord
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Subject Modal -->
+    <div class="modal" id="addSubjectModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeAddSubject()">&times;</button>
+            <div class="modal-header">
+                <i class="fas fa-plus-circle"></i>
+                <h2>Adicionar Disciplina</h2>
+            </div>
+            <form class="login-form" onsubmit="handleAddSubject(event)">
+                <div class="form-group">
+                    <label>Nome da Disciplina</label>
+                    <input type="text" placeholder="Ex: Cálculo III" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Peso (1-10)</label>
+                        <input type="number" min="1" max="10" value="5" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Dificuldade (1-10)</label>
+                        <input type="number" min="1" max="10" value="5" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Horas Semanais</label>
+                    <input type="number" min="1" max="40" value="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">
+                    <i class="fas fa-plus"></i> Adicionar
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const isDark = document.body.classList.contains('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
+        }
+
+        function updateThemeIcon() {
+            const isDark = document.body.classList.contains('dark');
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        // Load saved theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark');
+            }
+            updateThemeIcon();
+        })();
+
+        // Tab switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Login modal
+        function openLogin() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            if (!email.endsWith('.edu.br') && !email.endsWith('.edu')) {
+                alert('Por favor, use um email institucional válido.');
+                return;
+            }
+            alert('Login realizado com sucesso!');
+            closeLogin();
+        }
+
+        // Add subject modal
+        function openAddSubject() {
+            document.getElementById('addSubjectModal').classList.add('active');
+        }
+
+        function closeAddSubject() {
+            document.getElementById('addSubjectModal').classList.remove('active');
+        }
+
+        function handleAddSubject(e) {
+            e.preventDefault();
+            alert('Disciplina adicionada com sucesso!');
+            closeAddSubject();
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
