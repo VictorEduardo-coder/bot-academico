@@ -4,11 +4,13 @@ com\universidade\bot\commands\RemoverEmailCommand.class
 com\universidade\bot\model\EventoAcademico.class
 com\universidade\bot\BotApp.class
 com\universidade\bot\database\DatabaseManager.class
+com\universidade\bot\security\EncryptionService.class
 com\universidade\bot\model\Disciplina.class
 com\universidade\bot\commands\ConfigurarNotificacaoCommand.class
 com\universidade\bot\utils\EmbedUtils.class
 com\universidade\bot\bot\BotManager.class
 com\universidade\bot\model\BlocoEstudo.class
+com\universidade\bot\api\APIServer.class
 com\universidade\bot\commands\ConfigurarEmailCommand.class
 com\universidade\bot\commands\ListarDisciplinasCommand.class
 com\universidade\bot\commands\CalendarCommand.class

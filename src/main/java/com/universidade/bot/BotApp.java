@@ -1,5 +1,6 @@
 package com.universidade.bot;
 
+import com.universidade.bot.api.APIServer;
 import com.universidade.bot.bot.BotManager;
 import com.universidade.bot.database.DatabaseManager;
 import com.universidade.bot.service.EmailReaderService;
@@ -14,6 +15,9 @@ public class BotApp {
         System.out.println("Iniciando sistema...");
 
         DatabaseManager.getInstance().inicializar();
+
+        int apiPort = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
+        APIServer.getInstance().iniciar(apiPort);
 
         BotManager botManager = BotManager.getInstance();
         botManager.iniciar();
@@ -30,6 +34,7 @@ public class BotApp {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Encerrando bot...");
             botManager.encerrar();
+            APIServer.getInstance().parar();
             scheduler.shutdown();
             DatabaseManager.getInstance().fechar();
         }));

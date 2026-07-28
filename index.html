@@ -665,94 +665,154 @@
     </div>
 
     <script>
-        // Theme toggle
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:8080' 
+            : window.location.origin;
+
+        let sessionToken = localStorage.getItem('sessionToken') || null;
+
         function toggleTheme() {
             document.body.classList.toggle('dark');
-            const isDark = document.body.classList.contains('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
             updateThemeIcon();
         }
 
         function updateThemeIcon() {
-            const isDark = document.body.classList.contains('dark');
             const icon = document.querySelector('.theme-toggle i');
-            icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+            icon.className = document.body.classList.contains('dark') ? 'fas fa-sun' : 'fas fa-moon';
         }
 
-        // Load saved theme
         (function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.add('dark');
-            }
+            if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
             updateThemeIcon();
+            if (sessionToken) carregarDisciplinas();
         })();
 
-        // Tab switching
         function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             event.currentTarget.classList.add('active');
         }
 
-        // Login modal
-        function openLogin() {
-            document.getElementById('loginModal').classList.add('active');
+        async function apiGet(endpoint) {
+            const headers = {};
+            if (sessionToken) headers['X-Session-Token'] = sessionToken;
+            try {
+                const res = await fetch(`${API_URL}${endpoint}`, { headers });
+                return await res.json();
+            } catch (e) { console.error('API erro:', e); return null; }
         }
 
-        function closeLogin() {
-            document.getElementById('loginModal').classList.remove('active');
+        async function apiPost(endpoint, data) {
+            const headers = { 'Content-Type': 'application/json' };
+            if (sessionToken) headers['X-Session-Token'] = sessionToken;
+            try {
+                const res = await fetch(`${API_URL}${endpoint}`, { method: 'POST', headers, body: JSON.stringify(data) });
+                return await res.json();
+            } catch (e) { console.error('API erro:', e); return null; }
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            if (!email.endsWith('.edu.br') && !email.endsWith('.edu')) {
-                alert('Por favor, use um email institucional válido.');
+        async function apiDelete(endpoint) {
+            const headers = {};
+            if (sessionToken) headers['X-Session-Token'] = sessionToken;
+            try {
+                const res = await fetch(`${API_URL}${endpoint}`, { method: 'DELETE', headers });
+                return await res.json();
+            } catch (e) { console.error('API erro:', e); return null; }
+        }
+
+        async function carregarDisciplinas() {
+            const data = await apiGet('/api/disciplinas');
+            if (data && Array.isArray(data)) renderDisciplinas(data);
+        }
+
+        function renderDisciplinas(dados) {
+            const grid = document.querySelector('.subjects-grid');
+            if (!grid) return;
+            if (dados.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;color:var(--text-secondary);grid-column:1/-1;">Nenhuma disciplina cadastrada.</p>';
                 return;
             }
-            alert('Login realizado com sucesso!');
-            closeLogin();
+            grid.innerHTML = dados.map(d => {
+                const prio = d.peso * 0.6 + d.dificuldade * 0.4;
+                const cls = prio >= 8 ? 'high' : prio >= 6 ? 'medium' : 'low';
+                const ico = prio >= 8 ? 'exclamation-triangle' : prio >= 6 ? 'exclamation-circle' : 'info-circle';
+                return `<div class="subject-card priority-${cls}">
+                    <div class="subject-header">
+                        <span class="priority-badge">Prioridade ${prio.toFixed(1)}</span>
+                        <i class="fas fa-${ico}"></i>
+                    </div>
+                    <h4>${d.nome}</h4>
+                    <div class="subject-stats">
+                        <span><i class="fas fa-weight"></i> Peso: ${d.peso}</span>
+                        <span><i class="fas fa-signal"></i> Dificuldade: ${d.dificuldade}</span>
+                    </div>
+                    <div class="subject-footer">
+                        <span><i class="fas fa-clock"></i> ${d.horasSemanaisNecessarias}h/semana</span>
+                        <button class="btn btn-small" style="background:var(--danger);font-size:0.7rem;" onclick="removerDisciplina('${d.nome}')">Remover</button>
+                    </div>
+                </div>`;
+            }).join('');
+            const badge = document.querySelector('.sidebar-nav .nav-item.active .badge');
+            if (badge) badge.textContent = dados.length;
         }
 
-        // Add subject modal
-        function openAddSubject() {
-            document.getElementById('addSubjectModal').classList.add('active');
-        }
+        function openLogin() { document.getElementById('loginModal').classList.add('active'); }
+        function closeLogin() { document.getElementById('loginModal').classList.remove('active'); }
 
-        function closeAddSubject() {
-            document.getElementById('addSubjectModal').classList.remove('active');
-        }
-
-        function handleAddSubject(e) {
+        async function handleLogin(e) {
             e.preventDefault();
-            alert('Disciplina adicionada com sucesso!');
-            closeAddSubject();
+            const email = document.getElementById('email').value;
+            const senha = document.getElementById('password').value;
+            if (!email.endsWith('.edu.br') && !email.endsWith('.edu')) {
+                alert('Use um email institucional valido.'); return;
+            }
+            const result = await apiPost('/api/auth/login', { email, senha });
+            if (result && result.success) {
+                sessionToken = result.token;
+                localStorage.setItem('sessionToken', sessionToken);
+                closeLogin();
+                carregarDisciplinas();
+            } else {
+                alert('Erro ao fazer login.');
+            }
         }
 
-        // Close modal on outside click
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('active');
-                }
+        function openAddSubject() { document.getElementById('addSubjectModal').classList.add('active'); }
+        function closeAddSubject() { document.getElementById('addSubjectModal').classList.remove('active'); }
+
+        async function handleAddSubject(e) {
+            e.preventDefault();
+            if (!sessionToken) { alert('Faca login primeiro!'); return; }
+            const inputs = e.target.querySelectorAll('input');
+            const result = await apiPost('/api/disciplinas', {
+                nome: inputs[0].value,
+                peso: parseInt(inputs[1].value),
+                dificuldade: parseInt(inputs[2].value),
+                horas: parseInt(inputs[3].value)
             });
+            if (result && result.success) {
+                closeAddSubject();
+                e.target.reset();
+                carregarDisciplinas();
+            } else {
+                alert('Erro ao adicionar disciplina.');
+            }
+        }
+
+        async function removerDisciplina(nome) {
+            if (!confirm(`Remover ${nome}?`)) return;
+            const result = await apiDelete(`/api/disciplinas/${encodeURIComponent(nome)}`);
+            if (result && result.success) carregarDisciplinas();
+        }
+
+        document.querySelectorAll('.modal').forEach(m => {
+            m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('active'); });
         });
 
-        // Navbar scroll effect
         window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
     </script>
 </body>

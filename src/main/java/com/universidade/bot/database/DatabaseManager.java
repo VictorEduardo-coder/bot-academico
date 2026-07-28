@@ -2,6 +2,7 @@ package com.universidade.bot.database;
 
 import com.universidade.bot.model.Disciplina;
 import com.universidade.bot.model.EventoAcademico;
+import com.universidade.bot.security.EncryptionService;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ public class DatabaseManager {
     private static DatabaseManager instance;
     private Connection connection;
     private final boolean usingPostgres;
+    private final EncryptionService encryption = EncryptionService.getInstance();
 
     private DatabaseManager() {
         this.usingPostgres = System.getenv("DATABASE_URL") != null;
@@ -151,6 +153,9 @@ public class DatabaseManager {
     // ==================== EMAIL CONFIG ====================
 
     public void salvarEmailConfig(String userId, String email, String senha) {
+        String encEmail = encryption.encrypt(email);
+        String encSenha = encryption.encrypt(senha);
+
         String sql = usingPostgres ?
             """
                 INSERT INTO email_config (user_id, email, senha, updated_at)
@@ -164,11 +169,11 @@ public class DatabaseManager {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, userId);
-            ps.setString(2, email);
-            ps.setString(3, senha);
+            ps.setString(2, encEmail);
+            ps.setString(3, encSenha);
             if (usingPostgres) {
-                ps.setString(4, email);
-                ps.setString(5, senha);
+                ps.setString(4, encEmail);
+                ps.setString(5, encSenha);
             }
             ps.executeUpdate();
         } catch (SQLException e) {
@@ -182,9 +187,11 @@ public class DatabaseManager {
             ps.setString(1, userId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                return new String[]{rs.getString("email"), rs.getString("senha")};
+                String email = encryption.decrypt(rs.getString("email"));
+                String senha = encryption.decrypt(rs.getString("senha"));
+                return new String[]{email, senha};
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Erro ao obter config email: " + e.getMessage());
         }
         return null;
@@ -196,13 +203,12 @@ public class DatabaseManager {
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                configs.add(new String[]{
-                        rs.getString("user_id"),
-                        rs.getString("email"),
-                        rs.getString("senha")
-                });
+                String userId = rs.getString("user_id");
+                String email = encryption.decrypt(rs.getString("email"));
+                String senha = encryption.decrypt(rs.getString("senha"));
+                configs.add(new String[]{userId, email, senha});
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             System.err.println("Erro ao listar configs email: " + e.getMessage());
         }
         return configs;

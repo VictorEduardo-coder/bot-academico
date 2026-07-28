@@ -6,10 +6,6 @@ primary_region = "gru"
 [env]
   JAVA_VERSION = "17"
 
-[mounts]
-  source = "bot_data"
-  destination = "/data"
-
 [[services]]
   internal_port = 8080
   protocol = "tcp"
