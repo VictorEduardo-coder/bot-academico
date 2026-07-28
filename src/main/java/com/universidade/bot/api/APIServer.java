@@ -43,7 +43,8 @@ public class APIServer {
             if (ctx.method().name().equals("OPTIONS")) {
                 ctx.status(200);
             }
-        });
+        })
+        .get("/", ctx -> ctx.redirect("/web/index.html"));
 
         registrarRotas();
         app.start(porta);
